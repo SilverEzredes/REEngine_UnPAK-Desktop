@@ -25,7 +25,7 @@ Desktop version of Ekey's PAK archive extractor "[REE.Unpacker](https://github.c
 
 ## Credits:
 - [Ekey](https://github.com/Ekey) for creating [REE.PAK.Tool](https://github.com/Ekey/REE.PAK.Tool)
-* [flatz](https://github.com/flatz) (PS4 stuff :sunglasses:)
+* [flatz](https://github.com/flatz) (PS4 stuff)
 * wigwrm (RE7) dlc filenames
 * iRaven (RE2 & RE3 RT) dlc filenames
 * Link (SF6 game files)
