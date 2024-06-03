@@ -82,7 +82,7 @@ namespace REE.Unpacker
                 Console.WriteLine("  " + m_Output);
 
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("\nDo you want to unpack another file? (yes/no):");
+                Console.WriteLine("\nDo you want to unpack another archive? (yes/no):");
                 string unpackAgain = Console.ReadLine().Trim().ToLower();
 
                 if (unpackAgain != "yes")
