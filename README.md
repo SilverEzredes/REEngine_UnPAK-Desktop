@@ -2,7 +2,7 @@
 Desktop version of Ekey's PAK archive extractor "[REE.Unpacker](https://github.com/Ekey/REE.PAK.Tool)" for RE ENGINE games.
 
 ## Usage:
-- Download from [Releases](https://github.com/SilverEzredes/REEngine_UnPAK-Desktop/releases/)
+- Download the latest version from [Releases](https://github.com/SilverEzredes/REEngine_UnPAK-Desktop/releases/)
 - Extract
 - Run `REEngine_UnPAK-Desktop.exe`
 - Input the file name of the `.list` file you wish to use.
