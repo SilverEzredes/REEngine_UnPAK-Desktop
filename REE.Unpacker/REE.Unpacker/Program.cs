@@ -5,60 +5,91 @@ namespace REE.Unpacker
 {
     class Program
     {
-        public static String m_Title = "RE Engine PAK Unpacker";
+        public static String m_Title = "RE Engine UnPAK - Desktop";
 
         static void Main(String[] args)
         {
+            string updateDate = "06/03/2024";
+            string versionNumber = "1.0.0";
+            string m_ListFile = "";
+            string m_PakFile = "";
+            string m_Output = null;
+            bool isUnpack = true;
+
             Console.Title = m_Title;
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(m_Title);
-            Console.WriteLine("(c) 2023 Ekey (h4x0r) / v{0}\n", Utils.iGetApplicationVersion());
-            Console.ResetColor();
+            Console.WriteLine("/////////////////////////////////////////");
+            Console.WriteLine("-- " + m_Title + "\n");
+            Console.WriteLine("-- Desktop version by: SilverEzredes");
+            Console.WriteLine("-- Updated: " + updateDate);
+            Console.WriteLine("-- Version: " + versionNumber);
+            Console.WriteLine("-- (c) 2024 Ekey (h4x0r)");
+            Console.WriteLine("/////////////////////////////////////////\n");
 
-            if (args.Length != 2 && args.Length != 3)
+            while (isUnpack)
             {
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("[Usage]");
-                Console.WriteLine("    REE.Unpacker <m_ProjectFile> <m_File> <m_Directory>\n");
-                Console.WriteLine("    m_ProjectFile - Project file (Tag) with filenames (file must be in Projects folder)");
-                Console.WriteLine("    m_File - Source of PAK archive file");
-                Console.WriteLine("    m_Directory - Destination directory (Optional)\n");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Enter .list file name:");
                 Console.ResetColor();
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("[Examples]");
-                Console.WriteLine("    REE.Unpacker MHR_PC_DEMO E:\\Games\\MHR\\re_chunk_000.pak");
-                Console.WriteLine("    REE.Unpacker MHR_PC_DEMO E:\\Games\\MHR\\re_chunk_000.pak D:\\Unpacked");
+                m_ListFile = Console.ReadLine();
+                if (!File.Exists(PakList.m_Path + m_ListFile))
+                {
+                    Utils.iSetError("[ERROR]: Input LIST file [" + PakList.m_Path + m_ListFile + "] does not exist");
+                    Console.ReadLine();
+                    return;
+                }
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\nEnter .pak file path:");
                 Console.ResetColor();
-                return;
-            }
+                m_PakFile = Console.ReadLine();
+                if (!File.Exists("Zstandard.Net.dll") || !File.Exists("libzstd.dll"))
+                {
+                    Utils.iSetError("[ERROR]: Unable to find ZSTD modules");
+                    Console.ReadLine();
+                    return;
+                }
+                if (!File.Exists(m_PakFile))
+                {
+                    Utils.iSetError("[ERROR]: Input PAK file [" + m_PakFile + "] does not exist");
+                    Console.ReadLine();
+                    return;
+                }
 
-            String m_ListFile = args[0];
-            String m_PakFile = args[1];
-            String m_Output = null;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\nEnter output folder path:");
+                Console.ResetColor();
+                m_Output = Console.ReadLine();
 
-            if (args.Length == 2)
-            {
-                m_Output = Path.GetDirectoryName(args[1]) + @"\" + Path.GetFileNameWithoutExtension(args[1]) + @"\";
-            }
-            else
-            {
-                m_Output = Utils.iCheckArgumentsPath(args[2]);
-            }
+                if (m_Output.Length < 2)
+                {
+                    m_Output = Path.GetDirectoryName(m_PakFile) + @"\" + Path.GetFileNameWithoutExtension(m_PakFile) + @"\";
+                }
+                else
+                {
+                    m_Output = Utils.iCheckArgumentsPath(m_Output);
+                }
 
-            if (!File.Exists("Zstandard.Net.dll") || !File.Exists("libzstd.dll"))
-            {
-                Utils.iSetError("[ERROR]: Unable to find ZSTD modules");
-                return;
-            }
+                PakList.iLoadProject(m_ListFile);
+                PakUnpack.iDoIt(m_PakFile, m_Output);
 
-            if (!File.Exists(m_PakFile))
-            {
-                Utils.iSetError("[ERROR]: Input PAK file -> " + m_PakFile + " <- does not exist");
-                return;
-            }
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\n[FINISHED]");
+                Console.ResetColor();
+                Console.WriteLine("  " + Path.GetFileNameWithoutExtension(m_PakFile));
 
-            PakList.iLoadProject(m_ListFile);
-            PakUnpack.iDoIt(m_PakFile, m_Output);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\n[OUTPUT PATH]");
+                Console.ResetColor();
+                Console.WriteLine("  " + m_Output);
+
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("\nDo you want to unpack another file? (yes/no):");
+                string unpackAgain = Console.ReadLine().Trim().ToLower();
+
+                if (unpackAgain != "yes")
+                {
+                    isUnpack = false;
+                }
+            }
         }
     }
 }

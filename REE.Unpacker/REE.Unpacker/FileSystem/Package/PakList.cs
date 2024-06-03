@@ -6,14 +6,14 @@ namespace REE.Unpacker
 {
     class PakList
     {
-        private static String m_Path = Utils.iGetApplicationPath() + @"\Projects\";
+        public static String m_Path = Utils.iGetApplicationPath() + @"\Projects\";
 
         private static Dictionary<UInt64, String> m_HashList = new Dictionary<UInt64, String>();
 
         public static void iLoadProject(String m_ProjectFile)
         {
             String m_Line = null;
-            m_ProjectFile = m_ProjectFile + ".list";
+            //m_ProjectFile = m_ProjectFile + ".list";
             if (!File.Exists(m_Path + m_ProjectFile))
             {
                 Utils.iSetWarning("[WARNING]: Unable to load project file " + m_ProjectFile);
